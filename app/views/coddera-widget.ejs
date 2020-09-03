@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>   
+	<!--Bootsrap 4 CDN-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!--Fontawesome CDN-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+<body bgproperties="fixed">
+	<input type="hidden" id="queueId" name="queueId" value=""> 
+	<div class="d-flex">
+		<div class="card" id="coddera-widget-card">
+			<div class="custom-card-header">
+				<!-- <img class="card_widget_logo" id="card_widget_logo" alt="logo"/> -->
+				<input type="button" id="remove-coddera-widget-card-btn" value="X">
+			</div>
+			<div class="card-body" id="choose-queue" >
+				<h3>FALE CONOSCO</h3>
+				<p>Nosso atendimento é de Segunda a Sexta-feira das <strong>08h às 18h</strong>.</p>
+			</div>
+			<div class="card-body"  id="form-body" style="display: none;">
+				<form>
+					<div class="body-msg">Para iniciar, preencha os campos abaixo</div>
+					<div class="input-group form-group">
+						<input type="text" class="form-control" placeholder="Nome" id="first-name" required >
+					</div>
+					<div class="input-group form-group">
+						<input type="text" class="form-control" placeholder="E-mail" id="email" required >
+					</div>
+					<div class="input-group form-group">
+						<input type="text" class="form-control" placeholder="Telefone" id="phone-number" data-mask="00 00000 0009" required >
+					</div>
+					<div class="input-group form-group">
+						<textarea class="form-control" id="question" placeholder="Pergunta" rows="5" cols="33" required></textarea>
+					</div>
+					<div class="form-group">
+						<input type="button" value="Iniciar" class="btn submit-widget" id="submit-widget" disabled>
+					</div>
+				</form>
+			</div>
+			<div class="wait-card" style="display: none;">
+				<p>Aguarde um momento que em breve você será atendido</p>
+				<div class="widget_loader"></div>
+			</div>
+			<div class="custom-card-body"  id="chat-body" style="display: none;">
+				<div class="chat-header"  id="dialog-header">
+				</div>
+				<div class="chat-dialog" id="chat-dialog">
+				</div>
+			</div>
+			<!-- <div class="card-footer">
+				<input type="button" value="Começar" class="btn" id="initial-widget-btn">
+			</div> -->
+			<div class="custom-card-footer"  id="chat-footer" style="display: none;">
+				<textarea type="text" class="send-msg-txt" id="send-msg-txt" placeholder="Escreva aqui..."></textarea>
+				<input type="button" class="send-msg-btn" id="send-msg-btn">
+			</div>
+		</div>
+	</div>
+	<div id="open-form-widget">
+		<div id="write_msg"><input type="button" value="Precisa de ajuda?" class="btn" id="open-form-widget-button"/></div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+	
+	<style>
+		@import url('https://fonts.googleapis.com/css?family=Numans');
+
+		.initial-card {
+			width: 292px;
+			height: 550px;
+			font-weight: bold;
+			font-size: 30px;
+			align-items: center;
+			text-align: center;
+			color: #FFFFFF;			
+			margin-top: 40%;
+		}
+
+		/* .card-footer {
+			height: 70px;
+			background-color: white;
+			border-style: none;
+			border-radius: 50px 2px 2px 2px;
+			text-align: center;
+		} */
+
+		.initial-card img {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			max-width:200px;
+			max-height:150px;
+			width: auto;
+			height: auto;
+		}
+
+		#coddera-widget-card{
+			height: 550px;
+			width: 292px;
+			border: none;
+			box-shadow: 0px 2px 3px rgba(50, 50, 50, 0.77);
+			font-family: Helvetica;
+			background: linear-gradient(180deg, #034EA1 4.74%, #0060AE 36.59%, #007BC3 64.78%, #0095DA 94.06%);
+		}
+
+		#coddera-widget-card .custom-card-header {
+			background-color: transparent;
+			width: 100%;
+			height: 10%;
+			border: none;
+			text-align: center;
+		}
+
+		#remove-coddera-widget-card-btn {
+			float: right;
+			width: 30px;
+			height: 30px;
+			font-size: large;
+			color: white;
+			background-color: transparent;
+			text-align: center;
+			border-style: none;
+		}
+
+		.card_widget_logo {
+			max-width: 100%;
+			max-height:50px;
+			margin-left: 10%;
+			width: auto;
+			height: auto;
+			margin-top: 10px;
+		}
+
+		.card-body{
+			height: 350px;
+			width: 292px;
+			margin-top: 20px;
+			border-radius: 50px 2px 2px 2px;
+			background: white
+		}
+
+		#choose-queue h3{
+			font-weight: bold;
+			color: #0060AE
+		}
+
+		.body-msg {
+			margin-bottom: 30px;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 18px;
+			color: #F6921E;
+		}
+
+		.wait-card {
+			font-style: normal;
+			font-weight: 300;
+			font-size: 30px;
+			line-height: 40px;
+			display: flex;
+			align-items: center;
+			text-align: center;
+			color: #FFFFFF;
+			margin-top: 50%;
+			margin-bottom: 50%;
+			margin-right: 20px;
+			margin-left: 20px;
+		}
+
+		.form-group .form-control{
+			border-radius: 6px;
+			color: #0095DA;
+			font-weight: bold;
+			font-size: 12px;
+		}
+
+		.form-control[type=text]:focus {
+			border-bottom: 2px solid #FCAF17;
+		}  
+
+		.form-control::-webkit-input-placeholder {
+			color: rgba(0, 0, 0, 0.54);
+			font-weight: bold;
+			font-size: 12px;
+		}
+
+		.form-group .form-control:-moz-placeholder { /* Firefox 18- */
+			color: rgba(0, 0, 0, 0.54);
+			font-weight: bold;
+			font-size: 12px;
+		}
+
+		.form-group .form-control::-moz-placeholder {  /* Firefox 19+ */
+			color: rgba(0, 0, 0, 0.54); 
+			font-weight: bold;
+			font-size: 12px;
+		}
+
+		.form-group .form-control:-ms-input-placeholder {  
+			color: rgba(0, 0, 0, 0.54);
+			font-weight: bold;
+			font-size: 12px;
+		}
+
+		#question {
+			height: 100px;
+			resize: none;
+		}
+		
+		#question:focus{
+			border-bottom: 2px solid #FCAF17;
+		}
+
+		.form-group input:focus{
+			outline: 0 0 0 0  !important;
+			box-shadow: 0 0 0 0 !important;
+		}
+
+		#initial-widget-btn{
+			color: white;
+			width: 80%;
+			background: #0060AE;
+			border-radius: 6px;
+			font-weight: 700;
+		}
+		
+		.queue-btn{
+			color: white;
+			width: 100%;
+			background: gray;
+			border-radius: 6px;
+			font-weight: 700;
+			margin-top: 10px;
+		}
+
+		.queue-btn:enabled {
+			background: green;
+		}
+
+		#submit-widget{
+			color: white;
+			width: 100%;
+			background: #0060AE;
+			border-radius: 6px;
+			font-weight: 700;
+			margin-top: 15%;
+		}
+
+		#coddera-widget-card .custtom-card-footer {
+			background-color: white;
+			border: none;
+			width: 100%;
+		}
+
+		#open-form-widget-button {
+			color: white;
+			background: #034EA1;
+			width: 270px;
+			height: 50px;
+			box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.24), 0px 0px 8px rgba(0, 0, 0, 0.12), inset 0px 1px 0px rgba(255, 255, 255, 0.12);
+			border-radius: 50px 2px 2px 2px;
+			font-family: Helvetica;
+			font-style: normal;
+			font-weight: bold;
+			line-height: 30px;
+			font-size: 20px;
+		}
+
+		.custom-card-body {
+			width: 292px;
+			height: 100%;
+			margin-top: 8px;
+			border-radius: 50px 2px 2px 2px;
+			background: white;
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+
+		.custom-card-footer{
+			width: 100%;
+			height: 50px;
+			left: 0px;
+			background: white;
+			border: none;
+		}
+		
+		.custom-card-footer textarea {
+			height: 100%;
+			width: 85%;
+			background-color: #0095DA;
+			border-radius: 6px 0px 0px 6px;
+			border-style: none;
+			resize: none;
+			text-indent: 5px;
+			padding: 10px;
+		}
+
+		.custom-card-footer input[type=button]{
+			height: 100%;
+			width: 15%;
+			float: right;
+			background-repeat: no-repeat;
+			position: relative;
+			background-color: #0095DA;
+			border-radius: 0px 6px 6px 0px;
+			border-style: none;
+			background-position: center;
+		}
+
+		.send-msg-txt {
+			color: white;
+			font-weight: normal;
+			font-size: 14px;
+		}
+
+		.send-msg-txt::-webkit-input-placeholder {
+			color: white;
+			font-weight: bold;
+			font-size: 12px;
+		}
+
+		.send-msg-txt .form-control:-moz-placeholder { /* Firefox 18- */
+			color: white;
+			font-weight: bold;
+			font-size: 12px;
+		}
+
+		.send-msg-txt .form-control::-moz-placeholder {  /* Firefox 19+ */
+			color: white;
+			font-weight: bold;
+			font-size: 12px;
+		}
+
+		.send-msg-txt .form-control:-ms-input-placeholder {  
+			color: white;
+			font-weight: bold;
+			font-size: 12px;
+		}
+
+		#dialog-header{
+			width: 239px;
+			min-height: 20px;
+			font-size: 12px;
+			color: #0095DA;
+			margin-left: 35px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			text-align: center;
+		}
+
+		.chat-dialog{
+			width: 100%;
+		}
+
+		.chat-dialog p{
+			width: 239px;
+			min-height: 20px;
+			font-size: 12px;
+			color: #0095DA;
+			margin-left: 25px;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			text-align: center;
+		}
+
+		.block-dialog{
+			width: 100%;
+			height: 100%;
+		}
+
+		.typing-msg{
+			background: lightgray;
+			border-radius: 0px 6px 6px 0px;
+			border: 10px solid lightgray;
+			color: #034EA1;
+			font-size: 14px;
+			width: 60px;
+		}
+
+		.agent-msg{
+			background: lightgray;
+			border-radius: 0px 6px 6px 0px;
+			border: 10px solid lightgray;
+			color: #034EA1;
+			font-size: 14px;
+			width: 75%;
+		}
+	
+		.client-msg{
+			background: #0095DA;
+			border-radius: 6px 0px 0px 6px;
+			border: 10px solid #0095DA;
+			color: #FFFFFF;
+			font-size: 14px;
+			width: 75%;
+			margin-left: 73px
+		}
+
+		#block-client {
+			float: right;
+			text-align: right;
+		}
+
+		#block-agent {
+			float: left;
+			text-align: left;
+		}
+		
+		#block-typing {
+			float: left;
+			text-align: left;
+		}
+		
+		.agent-name{
+			font-size: 14px;
+			color: rgba(0, 0, 0, 0.38);
+			font-weight: bold;
+		}
+
+		.client-name{			
+			font-size: 14px;
+			font-weight: bold;
+			color: #0095DA;
+		}
+
+		.chat-bubble {
+			background-color:#E6F8F1;
+			padding:10px 10px;
+			-webkit-border-radius: 20px;
+			-webkit-border-bottom-left-radius: 2px;
+			-moz-border-radius: 20px;
+			-moz-border-radius-bottomleft: 2px;
+			border-radius: 20px;
+			border-bottom-left-radius: 2px;
+			display:inline-block;
+		}
+		.typing {
+			align-items: center;
+			display: flex;
+			height: 17px;
+		}
+		.typing .dot {
+			animation: mercuryTypingAnimation 0.7s infinite ease-in-out;
+			background-color: #034EA1 ;
+			border-radius: 50%;
+			height: 10px;
+			margin-right: 4px;
+			vertical-align: middle;
+			width: 10px;
+			display: inline-block;
+			}
+			.typing .dot:nth-child(1) {
+			animation-delay: 200ms;
+			}
+			.typing .dot:nth-child(2) {
+			animation-delay: 300ms;
+			}
+			.typing .dot:nth-child(3) {
+			animation-delay: 400ms;
+			}
+			.typing .dot:last-child {
+			margin-right: 0;
+			}
+
+			@keyframes mercuryTypingAnimation {
+			0% {
+				transform: translateY(0px);
+				background-color:#034EA1;
+			}
+			28% {
+				transform: translateY(-7px);
+				background-color:#6080a5;
+			}
+			44% {
+				transform: translateY(0px);
+				background-color: #a7a9ac;
+			}
+		}
+
+	</style>
+</body>
+</html>
