@@ -1,5 +1,5 @@
-// const host = "http://ec2-18-228-171-32.sa-east-1.compute.amazonaws.com:3000";
-const host = "http://localhost:3000";
+// const host = "http://ec2-18-228-171-32.sa-east-1.compute.amazonaws.com:3003";
+const host = "http://localhost:3003";
 
 function widget() {
     $('#purecloud-widget').load(host + "/coddera-widget", function () {
@@ -9,7 +9,7 @@ function widget() {
         $("#form-body").css('background-image', 'url("' + host + '/images/sebrae_back.png' + '")');
 
         var submitButton = document.getElementById('submit-widget');
-        var openFormButton = document.getElementById('open-form-widget-button');
+        // var openFormButton = document.getElementById('open-form-widget-button');
         var firstName = document.getElementById('first-name');
         var phoneNumber = document.getElementById('phone-number');
         var email = document.getElementById('email');
@@ -27,7 +27,7 @@ function widget() {
         queueButtons()
 
     
-        $('#coddera-widget-card').slideToggle("fast");
+        // $('#coddera-widget-card').slideToggle("fast");
     
 
         document.getElementById('send-msg-btn').onclick = function (){
@@ -58,10 +58,10 @@ function widget() {
             }            
         }
     
-        openFormButton.onclick = function (){
-            $('#coddera-widget-card').slideToggle("fast");
-            $('#open-form-widget-button').hide();
-        }
+        // openFormButton.onclick = function (){
+        //     $('#coddera-widget-card').slideToggle("fast");
+        //     $('#open-form-widget-button').hide();
+        // }
     
         firstName.oninput = function (){
             btnSubmitValidation(firstName, phoneNumber, email, question);
