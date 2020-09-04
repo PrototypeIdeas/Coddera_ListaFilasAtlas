@@ -59,16 +59,15 @@ Se você precisar atualizar o `npm`, poderá fazê-lo usando o` npm`!
   
   As filas que serão validas também são descritas no  /config/purecloudConfig.js.
   
-  Ex: 
-  
+  Ex:   
   purecloudConfig.widget.QUEUE_INFOS = {
     queues:[
         {
-            id: "cb0e49de-dfe8-456e-8e58-e2443b8372a5",
+            id: "skdsfjdsklfjks-skjdhkjadh8e58-uasdhashduash",
             name: "Atlas Geral Teste",
         },
         {
-            id: "140072c7-44dc-4749-9492-aa33498ae7b1",
+            id: "asdklçjaslkid7-44dc1456fd5dsfdsf-oaskaoksoa",
             name: "Dako Teste",
         }
     ]
