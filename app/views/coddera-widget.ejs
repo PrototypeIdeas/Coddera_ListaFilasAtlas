@@ -12,8 +12,7 @@
 	<div class="d-flex">
 		<div class="card" id="coddera-widget-card">
 			<div class="custom-card-header">
-				<!-- <img class="card_widget_logo" id="card_widget_logo" alt="logo"/> -->
-				<input type="button" id="remove-coddera-widget-card-btn" value="X">
+				<!-- <input type="button" id="remove-coddera-widget-card-btn" value="X"> -->
 			</div>
 			<div class="card-body" id="choose-queue" >
 				<h3>FALE CONOSCO</h3>
@@ -49,21 +48,23 @@
 				<div class="chat-dialog" id="chat-dialog">
 				</div>
 			</div>
-			<!-- <div class="card-footer">
-				<input type="button" value="Começar" class="btn" id="initial-widget-btn">
-			</div> -->
 			<div class="custom-card-footer"  id="chat-footer" style="display: none;">
+				<input type="file" id="widget-file-upload" style="display:none;" />
+				<input type="button" class="attach-btn" id="attach-btn" onclick="clickFileUpload();">
 				<textarea type="text" class="send-msg-txt" id="send-msg-txt" placeholder="Escreva aqui..."></textarea>
 				<input type="button" class="send-msg-btn" id="send-msg-btn">
 			</div>
 		</div>
 	</div>
-	<!-- <div id="open-form-widget">
-		<div id="write_msg"><input type="button" value="Precisa de ajuda?" class="btn" id="open-form-widget-button"/></div>
-	</div> -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 	
+	<script>
+        function clickFileUpload() {
+            document.getElementById("widget-file-upload").click();
+        };
+	</script>
+
 	<style>
 		@import url('https://fonts.googleapis.com/css?family=Numans');
 
@@ -77,15 +78,6 @@
 			color: #FFFFFF;			
 			margin-top: 40%;
 		}
-
-		/* .card-footer {
-			height: 70px;
-			background-color: white;
-			border-style: none;
-			border-radius: 50px 2px 2px 2px;
-			text-align: center;
-		} */
-
 		.initial-card img {
 			display: block;
 			margin-left: auto;
@@ -113,16 +105,19 @@
 			text-align: center;
 		}
 
-		#remove-coddera-widget-card-btn {
+		/* #remove-coddera-widget-card-btn {
 			float: right;
 			width: 30px;
 			height: 30px;
 			font-size: large;
-			color: white;
-			background-color: transparent;
-			text-align: center;
+			height: 100%;
+			width: 76%;
+			background-color: #0095DA;
 			border-style: none;
-		}
+			resize: none;
+			text-indent: 5px;
+			padding: 10px;
+		} */
 
 		.card_widget_logo {
 			max-width: 100%;
@@ -288,18 +283,17 @@
 		
 		.custom-card-footer textarea {
 			height: 100%;
-			width: 85%;
+			width: 76%;
 			background-color: #0095DA;
-			border-radius: 6px 0px 0px 6px;
 			border-style: none;
 			resize: none;
 			text-indent: 5px;
 			padding: 10px;
 		}
 
-		.custom-card-footer input[type=button]{
+		.custom-card-footer .send-msg-btn{
 			height: 100%;
-			width: 15%;
+			width: 12%;
 			float: right;
 			background-repeat: no-repeat;
 			position: relative;
@@ -309,6 +303,17 @@
 			background-position: center;
 		}
 
+		.custom-card-footer .attach-btn{
+			height: 100%;
+			width: 12%;
+			float: left;
+			background-repeat: no-repeat;
+			position: relative;
+			background-color: #0095DA;
+			border-radius: 6px 0px 0px 6px;
+			border-style: none;
+			background-position: center;
+		}
 		.send-msg-txt {
 			color: white;
 			font-weight: normal;

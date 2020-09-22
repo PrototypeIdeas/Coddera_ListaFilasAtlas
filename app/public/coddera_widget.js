@@ -6,28 +6,61 @@ function widget() {
         $("#initial_card_widget_logo").attr("src", host + "/images/sebrae_1.png");
         $("#card_widget_logo").attr("src", host + "/images/sebrae_1.png");
         $(".send-msg-btn").css('background-image', 'url("' + host + '/images/send_btn.png' + '")');
+        $(".attach-btn").css('background-image', 'url("' + host + '/images/paperclip.png' + '")');
         $("#form-body").css('background-image', 'url("' + host + '/images/sebrae_back.png' + '")');
 
         var submitButton = document.getElementById('submit-widget');
-        // var openFormButton = document.getElementById('open-form-widget-button');
         var firstName = document.getElementById('first-name');
         var phoneNumber = document.getElementById('phone-number');
         var email = document.getElementById('email');
         var question = document.getElementById('question');
-        var removeBtn = document.getElementById('remove-coddera-widget-card-btn');
+        // var removeBtn = document.getElementById('remove-coddera-widget-card-btn');
+        var fileUpload = document.getElementById('widget-file-upload');
 
         var chatObj = {
             member: {id: ''},
             data: {},
             typingControl: true,
             heartbeatCount: 0,
-            queue: {id: ''}
+            queue: {id: ''},
+            operatorConnected: true
         };
 
         queueButtons()
 
+        fileUpload.onchange = function (){
+            var fReader = new FileReader();
+            const name = fileUpload.files[0].name;
+            const type = fileUpload.files[0].type;
+ 
+            fReader.readAsDataURL(fileUpload.files[0]);
+            fReader.onloadend = function(event){
+                var xhttp = new XMLHttpRequest();
+                
+                var data = {
+                    base64: event.target.result,
+                    name: name,
+                    type: type,
+                };
+        
+                xhttp.onloadend = function() {
+                    var msg = "";
+                    if (this.status == 200) {
+                        var data = JSON.parse(this.response);
+                        msg = "Segue o link do anexo: " + data.url
+                        sendMsg(msg, chatObj.data.id, chatObj.data.member.id, chatObj.data.jwt);
+                    } else {
+                        msg = "Desculpe houve um erro no envio do anexo." 
+                        sendMsg(msg, chatObj.data.id, chatObj.data.member.id, chatObj.data.jwt);
+                    }
+                };
     
-        // $('#coddera-widget-card').slideToggle("fast");
+                xhttp.open("POST", host + "/coddera-widget/aws/uploadS3", true);
+                xhttp.setRequestHeader("Content-type", "application/json");
+                xhttp.send(JSON.stringify(data));
+
+            }
+        }
     
 
         document.getElementById('send-msg-btn').onclick = function (){
@@ -35,32 +68,27 @@ function widget() {
             sendMsg(msg, chatObj.data.id, chatObj.data.member.id, chatObj.data.jwt);
         }
 
-        removeBtn.onclick = function () {
+        // removeBtn.onclick = function () {
             
-            if(chatObj.data.member != undefined){                  
-                var xhttp = new XMLHttpRequest();
+        //     if(chatObj.data.member != undefined){                  
+        //         var xhttp = new XMLHttpRequest();
                 
-                var data = {
-                    conversationId: chatObj.data.id,
-                    memberId: chatObj.data.member.id,
-                    token: chatObj.data.jwt,
-                };
+        //         var data = {
+        //             conversationId: chatObj.data.id,
+        //             memberId: chatObj.data.member.id,
+        //             token: chatObj.data.jwt,
+        //         };
         
-                xhttp.onloadend = function() {
-                    widget();
-                };
+        //         xhttp.onloadend = function() {
+        //             widget();
+        //         };
     
-                xhttp.open("DELETE", host + "/coddera-widget/chat/finalyze", true);
-                xhttp.setRequestHeader("Content-type", "application/json");
-                xhttp.send(JSON.stringify(data));
-            } else {
-                widget();
-            }            
-        }
-    
-        // openFormButton.onclick = function (){
-        //     $('#coddera-widget-card').slideToggle("fast");
-        //     $('#open-form-widget-button').hide();
+        //         xhttp.open("DELETE", host + "/coddera-widget/chat/finalyze", true);
+        //         xhttp.setRequestHeader("Content-type", "application/json");
+        //         xhttp.send(JSON.stringify(data));
+        //     } else {
+        //         widget();
+        //     }            
         // }
     
         firstName.oninput = function (){

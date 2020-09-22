@@ -18,6 +18,7 @@
   "author": "Coddera",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.757.0",
     "axios": "^0.19.2",
     "body-parser": "^1.15.2",
     "consign": "^0.1.2",
