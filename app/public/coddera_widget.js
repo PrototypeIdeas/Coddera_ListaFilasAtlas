@@ -1,5 +1,5 @@
-// const host = "http://ec2-18-228-171-32.sa-east-1.compute.amazonaws.com:3003";
-const host = "http://localhost:3003";
+const host = "http://ec2-18-228-171-32.sa-east-1.compute.amazonaws.com:3003";
+//const host = "http://localhost:3003";
 
 function widget() {
     $('#purecloud-widget').load(host + "/coddera-widget", function () {
@@ -173,7 +173,10 @@ function widget() {
                                         xhttp.send(JSON.stringify(data));
                                     }
 
-                                    $('.chat-dialog').append('<p>O operador acabou de se connectar.</p>')
+                                    if(chatObj.operatorConnected){
+                                        $('.chat-dialog').append('<p>O operador acabou de se connectar.</p>')
+                                        chatObj.operatorConnected = false
+                                    }
                                 } else if (eventData.eventBody.member.state == 'DISCONNECTED' && chatObj.member.id == eventData.eventBody.member.id){
                                     socket.close();
                                     $('.custom-card-footer').hide();
