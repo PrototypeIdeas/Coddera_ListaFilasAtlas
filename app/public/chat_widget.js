@@ -1,5 +1,5 @@
 const host = "https://genesyscloudapps.coddera.com:3002";
-// const host = "http://localhost:3002";
+//const host = "http://localhost:3002";
 
 function chat() {
     $("#initial_card_widget_logo").attr("src", host + "/images/sebrae_1.png");
