@@ -5,9 +5,16 @@ var purecloudFinalyzeModel = require('../models/PureCloud/FinalyzeChat')
 var purecloudGetQueueUsers = require('../models/PureCloud/GetQueueUsers')
 
 module.exports = function (application) {
+    
     application.get('/coddera-widget', function (req, res) {
 
         res.render("coddera-widget");
+
+    });
+
+    application.get('/chat-widget', function (req, res) {
+
+        res.render("chat-widget");
 
     });
 

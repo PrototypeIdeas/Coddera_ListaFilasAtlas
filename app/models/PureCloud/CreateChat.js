@@ -14,6 +14,7 @@ module.exports = {
 		var phone = req.body.phone;
 		var email = req.body.email;
 		var queue = req.body.queue;
+		var cpf = req.body.cpf;
 		
 		console.log('>>>>>>>>>>>>> INIT PURECLOUD Widget');
 		console.log('>>>>>>>>>>>>> Name: ' + name + '|Phone: ' + phone + '|Email: ' + email + 'Fila: ' + queue);
@@ -32,6 +33,7 @@ module.exports = {
 				email : email,
 				phoneNumber : phone,
 				customFields : {
+					customCPF: cpf,
 					language: LANGUAGE,				
 					displayName : name,
 					lastName : "",

@@ -5,8 +5,8 @@ purecloudConfig.aws = {};
 //CREATE CHAT CONFIG
 purecloudConfig.widget.CREATE_URL = 'https://api.mypurecloud.com/api/v2/webchat/guest/conversations'
 
-purecloudConfig.widget.PURECLOUD_ORG_ID = '5b653c63-866d-447c-a2a1-10b549933b26';
-purecloudConfig.widget.PURECLOUD_DEPLOYMENT_ID = '3132b2e3-fa67-412c-bd3e-15e86381a41f';
+purecloudConfig.widget.PURECLOUD_ORG_ID = '947659c0-d25d-4f72-b07f-bf5181952f5b';
+purecloudConfig.widget.PURECLOUD_DEPLOYMENT_ID = 'b739e5a4-91d8-48e9-a373-fbf5741663fb';
 purecloudConfig.widget.TARGET_ADRESS = 'Atlas';
 purecloudConfig.widget.LANGUAGE = 'pt-BR';
 
@@ -27,20 +27,16 @@ purecloudConfig.widget.QUEUE_USERS_URL = 'https://api.mypurecloud.com/api/v2/rou
 purecloudConfig.widget.QUEUE_INFOS = {
     queues:[
         {
-            id: "cb0e49de-dfe8-456e-8e58-e2443b8372a5",
-            name: "Atlas Geral Teste",
-        },
-        {
-            id: "140072c7-44dc-4749-9492-aa33498ae7b1",
-            name: "Dako Teste",
+            id: "0706597a-214f-475b-a969-e04b1516da98",
+            name: "CX_Atlas_Geral",
         }
     ]
 }
 
 //OAUTH CONFIG
 purecloudConfig.widget.TOKEN_URL = 'https://login.mypurecloud.com/oauth/token'
-purecloudConfig.widget.CLIENT_ID = '74bb872d-1042-4a46-88fe-dd20a1c32c43'
-purecloudConfig.widget.CLIENT_SECRET_ID = 'GWfhXu3JTUkaj8fJSAQSzmqY0hgoXRV2tD9F9cgscFs'
+purecloudConfig.widget.CLIENT_ID = '62f40430-a694-416d-a45c-dd19e63a92a9'
+purecloudConfig.widget.CLIENT_SECRET_ID = 'MZ4treAMJ039Igd0hxb5hxWa6NxLEsIHsj6OcRaJqI4'
 
 
 //AWS CONFIG

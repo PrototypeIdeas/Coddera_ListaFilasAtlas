@@ -28,6 +28,9 @@
 						<input type="text" class="form-control" placeholder="E-mail" id="email" required >
 					</div>
 					<div class="input-group form-group">
+						<input type="text" class="form-control" placeholder="CPF" id="cpf" data-mask="000 000 000 09" required >
+					</div>
+					<div class="input-group form-group">
 						<input type="text" class="form-control" placeholder="Telefone" id="phone-number" data-mask="00 00000 0009" required >
 					</div>
 					<div class="input-group form-group">
@@ -38,21 +41,8 @@
 					</div>
 				</form>
 			</div>
-			<div class="wait-card" style="display: none;">
+			<div class="wait-card" id="wait-card" style="display: none;">
 				<p>Aguarde um momento que em breve você será atendido</p>
-				<div class="widget_loader"></div>
-			</div>
-			<div class="custom-card-body"  id="chat-body" style="display: none;">
-				<div class="chat-header"  id="dialog-header">
-				</div>
-				<div class="chat-dialog" id="chat-dialog">
-				</div>
-			</div>
-			<div class="custom-card-footer"  id="chat-footer" style="display: none;">
-				<input type="file" id="widget-file-upload" style="display:none;" />
-				<input type="button" class="attach-btn" id="attach-btn" onclick="clickFileUpload();">
-				<textarea type="text" class="send-msg-txt" id="send-msg-txt" placeholder="Escreva aqui..."></textarea>
-				<input type="button" class="send-msg-btn" id="send-msg-btn">
 			</div>
 		</div>
 	</div>
@@ -105,20 +95,6 @@
 			text-align: center;
 		}
 
-		/* #remove-coddera-widget-card-btn {
-			float: right;
-			width: 30px;
-			height: 30px;
-			font-size: large;
-			height: 100%;
-			width: 76%;
-			background-color: #0095DA;
-			border-style: none;
-			resize: none;
-			text-indent: 5px;
-			padding: 10px;
-		} */
-
 		.card_widget_logo {
 			max-width: 100%;
 			max-height:50px;
@@ -128,7 +104,7 @@
 			margin-top: 10px;
 		}
 
-		.card-body{
+		.card-body {
 			height: 350px;
 			width: 292px;
 			margin-top: 20px;
@@ -142,7 +118,7 @@
 		}
 
 		.body-msg {
-			margin-bottom: 30px;
+			margin-bottom: 15px;
 			font-style: normal;
 			font-weight: normal;
 			font-size: 18px;
@@ -240,7 +216,7 @@
 			background: #0060AE;
 			border-radius: 6px;
 			font-weight: 700;
-			margin-top: 15%;
+			margin-top: 5px;
 		}
 
 		#coddera-widget-card .custtom-card-footer {
@@ -272,218 +248,6 @@
 			overflow-y: auto;
 			overflow-x: hidden;
 		}
-
-		.custom-card-footer{
-			width: 100%;
-			height: 50px;
-			left: 0px;
-			background: white;
-			border: none;
-		}
-		
-		.custom-card-footer textarea {
-			height: 100%;
-			width: 76%;
-			background-color: #0095DA;
-			border-style: none;
-			resize: none;
-			text-indent: 5px;
-			padding: 10px;
-		}
-
-		.custom-card-footer .send-msg-btn{
-			height: 100%;
-			width: 12%;
-			float: right;
-			background-repeat: no-repeat;
-			position: relative;
-			background-color: #0095DA;
-			border-radius: 0px 6px 6px 0px;
-			border-style: none;
-			background-position: center;
-		}
-
-		.custom-card-footer .attach-btn{
-			height: 100%;
-			width: 12%;
-			float: left;
-			background-repeat: no-repeat;
-			position: relative;
-			background-color: #0095DA;
-			border-radius: 6px 0px 0px 6px;
-			border-style: none;
-			background-position: center;
-		}
-		.send-msg-txt {
-			color: white;
-			font-weight: normal;
-			font-size: 14px;
-		}
-
-		.send-msg-txt::-webkit-input-placeholder {
-			color: white;
-			font-weight: bold;
-			font-size: 12px;
-		}
-
-		.send-msg-txt .form-control:-moz-placeholder { /* Firefox 18- */
-			color: white;
-			font-weight: bold;
-			font-size: 12px;
-		}
-
-		.send-msg-txt .form-control::-moz-placeholder {  /* Firefox 19+ */
-			color: white;
-			font-weight: bold;
-			font-size: 12px;
-		}
-
-		.send-msg-txt .form-control:-ms-input-placeholder {  
-			color: white;
-			font-weight: bold;
-			font-size: 12px;
-		}
-
-		#dialog-header{
-			width: 239px;
-			min-height: 20px;
-			font-size: 12px;
-			color: #0095DA;
-			margin-left: 35px;
-			margin-top: 10px;
-			margin-bottom: 10px;
-			text-align: center;
-		}
-
-		.chat-dialog{
-			width: 100%;
-		}
-
-		.chat-dialog p{
-			width: 239px;
-			min-height: 20px;
-			font-size: 12px;
-			color: #0095DA;
-			margin-left: 25px;
-			margin-top: 20px;
-			margin-bottom: 20px;
-			text-align: center;
-		}
-
-		.block-dialog{
-			width: 100%;
-			height: 100%;
-		}
-
-		.typing-msg{
-			background: lightgray;
-			border-radius: 0px 6px 6px 0px;
-			border: 10px solid lightgray;
-			color: #034EA1;
-			font-size: 14px;
-			width: 60px;
-		}
-
-		.agent-msg{
-			background: lightgray;
-			border-radius: 0px 6px 6px 0px;
-			border: 10px solid lightgray;
-			color: #034EA1;
-			font-size: 14px;
-			width: 75%;
-		}
-	
-		.client-msg{
-			background: #0095DA;
-			border-radius: 6px 0px 0px 6px;
-			border: 10px solid #0095DA;
-			color: #FFFFFF;
-			font-size: 14px;
-			width: 75%;
-			margin-left: 73px
-		}
-
-		#block-client {
-			float: right;
-			text-align: right;
-		}
-
-		#block-agent {
-			float: left;
-			text-align: left;
-		}
-		
-		#block-typing {
-			float: left;
-			text-align: left;
-		}
-		
-		.agent-name{
-			font-size: 14px;
-			color: rgba(0, 0, 0, 0.38);
-			font-weight: bold;
-		}
-
-		.client-name{			
-			font-size: 14px;
-			font-weight: bold;
-			color: #0095DA;
-		}
-
-		.chat-bubble {
-			background-color:#E6F8F1;
-			padding:10px 10px;
-			-webkit-border-radius: 20px;
-			-webkit-border-bottom-left-radius: 2px;
-			-moz-border-radius: 20px;
-			-moz-border-radius-bottomleft: 2px;
-			border-radius: 20px;
-			border-bottom-left-radius: 2px;
-			display:inline-block;
-		}
-		.typing {
-			align-items: center;
-			display: flex;
-			height: 17px;
-		}
-		.typing .dot {
-			animation: mercuryTypingAnimation 0.7s infinite ease-in-out;
-			background-color: #034EA1 ;
-			border-radius: 50%;
-			height: 10px;
-			margin-right: 4px;
-			vertical-align: middle;
-			width: 10px;
-			display: inline-block;
-			}
-			.typing .dot:nth-child(1) {
-			animation-delay: 200ms;
-			}
-			.typing .dot:nth-child(2) {
-			animation-delay: 300ms;
-			}
-			.typing .dot:nth-child(3) {
-			animation-delay: 400ms;
-			}
-			.typing .dot:last-child {
-			margin-right: 0;
-			}
-
-			@keyframes mercuryTypingAnimation {
-			0% {
-				transform: translateY(0px);
-				background-color:#034EA1;
-			}
-			28% {
-				transform: translateY(-7px);
-				background-color:#6080a5;
-			}
-			44% {
-				transform: translateY(0px);
-				background-color: #a7a9ac;
-			}
-		}
-
 	</style>
 </body>
 </html>

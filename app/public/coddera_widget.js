@@ -12,98 +12,30 @@ function widget() {
         var submitButton = document.getElementById('submit-widget');
         var firstName = document.getElementById('first-name');
         var phoneNumber = document.getElementById('phone-number');
+        var cpf = document.getElementById('cpf');
         var email = document.getElementById('email');
         var question = document.getElementById('question');
-        // var removeBtn = document.getElementById('remove-coddera-widget-card-btn');
-        var fileUpload = document.getElementById('widget-file-upload');
 
-        var chatObj = {
-            member: {id: ''},
-            data: {},
-            typingControl: true,
-            heartbeatCount: 0,
-            queue: {id: ''},
-            operatorConnected: true
-        };
-
-        queueButtons()
-
-        fileUpload.onchange = function (){
-            var fReader = new FileReader();
-            const name = fileUpload.files[0].name;
-            const type = fileUpload.files[0].type;
- 
-            fReader.readAsDataURL(fileUpload.files[0]);
-            fReader.onloadend = function(event){
-                var xhttp = new XMLHttpRequest();
-                
-                var data = {
-                    base64: event.target.result,
-                    name: name,
-                    type: type,
-                };
-        
-                xhttp.onloadend = function() {
-                    var msg = "";
-                    if (this.status == 200) {
-                        var data = JSON.parse(this.response);
-                        msg = "Segue o link do anexo: " + data.url
-                        sendMsg(msg, chatObj.data.id, chatObj.data.member.id, chatObj.data.jwt);
-                    } else {
-                        msg = "Desculpe houve um erro no envio do anexo." 
-                        sendMsg(msg, chatObj.data.id, chatObj.data.member.id, chatObj.data.jwt);
-                    }
-                };
-    
-                xhttp.open("POST", host + "/coddera-widget/aws/uploadS3", true);
-                xhttp.setRequestHeader("Content-type", "application/json");
-                xhttp.send(JSON.stringify(data));
-
-            }
-        }
-    
-
-        document.getElementById('send-msg-btn').onclick = function (){
-            var msg = $('.send-msg-txt').val();
-            sendMsg(msg, chatObj.data.id, chatObj.data.member.id, chatObj.data.jwt);
-        }
-
-        // removeBtn.onclick = function () {
-            
-        //     if(chatObj.data.member != undefined){                  
-        //         var xhttp = new XMLHttpRequest();
-                
-        //         var data = {
-        //             conversationId: chatObj.data.id,
-        //             memberId: chatObj.data.member.id,
-        //             token: chatObj.data.jwt,
-        //         };
-        
-        //         xhttp.onloadend = function() {
-        //             widget();
-        //         };
-    
-        //         xhttp.open("DELETE", host + "/coddera-widget/chat/finalyze", true);
-        //         xhttp.setRequestHeader("Content-type", "application/json");
-        //         xhttp.send(JSON.stringify(data));
-        //     } else {
-        //         widget();
-        //     }            
-        // }
+        queueButtons()    
     
         firstName.oninput = function (){
-            btnSubmitValidation(firstName, phoneNumber, email, question);
+            btnSubmitValidation(firstName, phoneNumber, cpf, email, question);
         }
+
         phoneNumber.oninput = function (){
-            btnSubmitValidation(firstName, phoneNumber, email, question);
+            btnSubmitValidation(firstName, phoneNumber, cpf, email, question);
+        }
+
+        cpf.oninput = function (){
+            btnSubmitValidation(firstName, phoneNumber, cpf, email, question);
         }
 
         email.oninput = function (){
-            btnSubmitValidation(firstName, phoneNumber, email, question);
+            btnSubmitValidation(firstName, phoneNumber, cpf, email, question);
         }
 
         question.oninput = function (){
-            btnSubmitValidation(firstName, phoneNumber, email, question);
+            btnSubmitValidation(firstName, phoneNumber, cpf, email, question);
         }
     
         submitButton.onclick = function () {
@@ -113,211 +45,25 @@ function widget() {
             var data = {
                 name: firstName.value,
                 phone: phoneNumber.value.replace(/ /g, ''),
+                cpf: cpf.value.replace(/ /g, ''),
                 email: email.value,
-                queue: document.getElementById("queueId").value
-            };
-            
-            var xhttp = new XMLHttpRequest();
-
-            xhttp.onloadend = function() {
-                while(this.status == 0){
-                    console.log('wait');
-                }
-                 if (this.status == 200) {
-                    $('.wait-card').hide();
-                    $('.custom-card-body').slideToggle("fast");
-                    chatObj.data = JSON.parse(this.response).data;
-
-                    console.log('Init Websocket - ' + chatObj.data.eventStreamUri)
-                    
-                    var socket = new WebSocket(chatObj.data.eventStreamUri, "protocolOne");
-                    var data = new Date();
-                    var hora    = data.getHours();
-                    var min     = data.getMinutes();
-
-                    $('#dialog-header').append('<p>Conversa iniciada às ' + hora + ':' + min + '. Aguarde, um atendente logo estará disponível</p>');
-
-                    socket.onopen = function(event){
-                        sendMsg(question.value, chatObj.data.id, chatObj.data.member.id, chatObj.data.jwt);
-                    }
-
-                    socket.onmessage = function (event) {
-                        console.log(event.data);
-                        var eventData = JSON.parse(event.data);
-
-                        switch (eventData.topicName) {
-                            case 'v2.conversations.chats.' + chatObj.data.id + '.members':
-
-                                if(eventData.eventBody.member.state == 'ALERTING'){
-                                    chatObj.member.id = eventData.eventBody.member.id;
-                                }else if(eventData.eventBody.member.state == 'CONNECTED' && chatObj.member.id == eventData.eventBody.member.id){                                
-                                    $('.custom-card-footer').show();
-                                    
-                                    document.getElementById('send-msg-txt').oninput = function (){
-                                        console.log('Escrevendo...');
-                                        var xhttp = new XMLHttpRequest();
-                            
-                                        var data = {
-                                            conversationId: chatObj.data.id,
-                                            memberId: chatObj.data.member.id,
-                                            token: chatObj.data.jwt,
-                                        };
-                                
-                                        xhttp.onloadend = function() {
-                                            console.log('Response Code: ' + this.status)
-                                            console.log('Response: ' + this.response)
-                                        };
-                            
-                                        xhttp.open("POST", host + "/coddera-widget/chat/send-typing", true);
-                                        xhttp.setRequestHeader("Content-type", "application/json");
-                                        xhttp.send(JSON.stringify(data));
-                                    }
-
-                                    if(chatObj.operatorConnected){
-                                        $('.chat-dialog').append('<p>O operador acabou de se connectar.</p>')
-                                        chatObj.operatorConnected = false
-                                    }
-                                } else if (eventData.eventBody.member.state == 'DISCONNECTED' && chatObj.member.id == eventData.eventBody.member.id){
-                                    socket.close();
-                                    $('.custom-card-footer').hide();
-                                    $('.chat-dialog').append('<p>O chat foi encerrado. Obrigado pelo contato.</p>');
-                                    var typing = document.getElementById('block-typing');
-                                    if(typing != null){
-                                        typing.parentNode.removeChild(typing);
-                                        chatObj.typingControl = true;
-                                    }
-                                }
-
-                                break;
-                            case 'v2.conversations.chats.' + chatObj.data.id + '.messages':
-                                
-                                var html = "";
-                                if(eventData.metadata.type == 'typing-indicator' && chatObj.typingControl){
-                                    if(chatObj.member.id == eventData.eventBody.sender.id){
-                                        html += '<div class="block-dialog"  id="block-typing">';
-                                        html += ' <div class="typing-msg">'
-                                        html += '  <div class="typing">';
-                                        html += '   <div class="dot"></div>';
-                                        html += '   <div class="dot"></div>';
-                                        html += '   <div class="dot"></div>';
-                                        html += '  </div>';
-                                        html += ' </div>';
-                                        html += '<div class="agent-name">Digitando</div>';
-                                        html += '</div>';
-                            
-                                        $('.chat-dialog').append(html);
-                                        document.getElementById('chat-body').scrollTo(0, document.getElementById('chat-body').scrollHeight);
-                                        chatObj.typingControl = false;
-                                        chatObj.heartbeatCount = 0;
-                                    }
-                                }
-    
-                                if(eventData.metadata.type == 'message'){
-                                    if(chatObj.member.id == eventData.eventBody.sender.id){
-                                        if(eventData.eventBody.body != ''){
-                                            if(chatObj.member.id == eventData.eventBody.sender.id){
-                                                if(eventData.eventBody.body != ''){
-                                                    html += '<div class="block-dialog"  id="block-agent">';
-                                                    html += '<div class="agent-msg">'
-                                                    html += eventData.eventBody.body
-                                                    html += '</div>';
-                                                    html += '<div class="agent-name">Atendente</div>';
-                                                    html += '</div>';
-                                
-                                                    $('.chat-dialog').append(html);
-                                                    var typing = document.getElementById('block-typing');
-                                                    if(typing != null){
-                                                        typing.parentNode.removeChild(typing);
-                                                        chatObj.typingControl = true;
-                                                    }
-                                                    document.getElementById('chat-body').scrollTo(0, document.getElementById('chat-body').scrollHeight);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                break;
-                            case 'channel.metadata':
-                                
-                                if(eventData.eventBody.message == "WebSocket Heartbeat"){
-                                    chatObj.heartbeatCount += 1;
-    
-                                    if(chatObj.heartbeatCount == 2) {
-                                        var dialog = document.getElementById('chat-dialog');
-                                        
-                                        if(dialog.querySelector('#block-typing')){
-                                            var typing = document.getElementById('block-typing');
-                                            typing.parentNode.removeChild(typing);
-                                            chatObj.typingControl = true;
-                                        }
-    
-                                        chatObj.heartbeatCount = 0;
-                                    }
-                                }
-                                break;
-                            default:
-                        }
-                    }
-                 }else{
-                    console.log(">>>>>>>> CREATE CHAT ERROR: " + this.response);
-                 }
+                queue: document.getElementById("queueId").value,
+                question: question.value
             };
 
-            xhttp.open("POST", host + "/coddera-widget/chat/create", true);
-            xhttp.setRequestHeader("Content-type", "application/json");
-            xhttp.send(JSON.stringify(data));    
-			    
+            window.open(host + "/chat-widget?data=" + btoa(JSON.stringify(data), "teste", "height=200,width=200"));
         };
+        
     });
 };
 
-function btnSubmitValidation(firstName, phoneNumber, email, question) {
+function btnSubmitValidation(firstName, phoneNumber, cpf, email, question) {
     $('#form-group').css('border-bottom', '2px solid #FCAF17');
-    if(firstName.value != "" && phoneNumber.value != "" && email.value != "" && question.value != ""){
+    if(firstName.value != "" && phoneNumber.value != "" && cpf.value != "" && email.value != "" && question.value != ""){
         $('#submit-widget').prop("disabled", false);
     } else {
         $('#submit-widget').prop("disabled", true);
     }
-}
-
-function sendMsg(msg, id, memberId, token) {
-
-    var data = {
-        conversationId: id,
-        memberId: memberId,
-        token: token,
-        msg: msg,
-        bodyType: "standard"
-    };
-
-    var xhttp = new XMLHttpRequest();
-    
-    xhttp.onloadend = function() {
-        if (this.status == 200) {
-            var html = "";
-            if(msg != ''){
-                html += '<div class="block-dialog"  id="block-client">';
-                html += '<div class="client-msg">'
-                html += msg
-                html += '</div>';
-                html += '<div class="client-name">Você</div>';
-                html += '</div>';
-
-                $('.chat-dialog').append( html);
-            }
-
-            document.getElementById('chat-body').scrollTo(0, document.getElementById('chat-body').scrollHeight);
-            $('.send-msg-txt').val("");
-        }else{
-            console.log('>>>>>>>> SEND MESSAGE ERROR: ' + this.response)
-        }
-
-    };
-
-    xhttp.open("POST", host + "/coddera-widget/chat/send", true);
-    xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.send(JSON.stringify(data));
 }
 
 function queueButtons() {
