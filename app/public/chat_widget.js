@@ -1,5 +1,5 @@
 const host = "https://genesyscloudapps.coddera.com:3002";
-//const host = "http://localhost:3003";
+// const host = "http://localhost:3002";
 
 function chat() {
     $("#initial_card_widget_logo").attr("src", host + "/images/sebrae_1.png");
@@ -107,9 +107,7 @@ function chat() {
 
             $('#dialog-header').append('<p>Conversa iniciada às ' + hora + ':' + min + '. Aguarde, um atendente logo estará disponível</p>');
 
-            console.log('REGISTROU O EVENTO DE ABERTURA: ' + question);
             socket.onopen = function(event){
-                console.log('ENTROU NO EVENTO DE ABERTURA: ' + question);
                 sendMsg(question, chatObj.data.id, chatObj.data.member.id, chatObj.data.jwt);
             }
 
@@ -126,7 +124,6 @@ function chat() {
                             $('.custom-card-footer').show();
                             
                             document.getElementById('send-msg-txt').oninput = function (){
-                                console.log('Escrevendo...');
                                 var xhttp = new XMLHttpRequest();
                     
                                 var data = {
