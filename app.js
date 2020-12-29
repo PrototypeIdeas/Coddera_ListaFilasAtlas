@@ -2,7 +2,7 @@ var app = require('./config/server');
 const https = require('https');
 const fs = require('fs');
 
-var port = process.env.PORT || 3003;
+var port = process.env.PORT || 3002;
 
 const options = {
     key: fs.readFileSync("/home/ubuntu/certificate/genesyscloudapps_coddera_com_key.txt"),

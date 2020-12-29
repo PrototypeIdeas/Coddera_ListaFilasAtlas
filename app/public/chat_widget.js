@@ -1,4 +1,4 @@
-const host = "http://ec2-18-228-171-32.sa-east-1.compute.amazonaws.com:3003";
+const host = "https://genesyscloudapps.coddera.com:3002";
 //const host = "http://localhost:3003";
 
 function chat() {
