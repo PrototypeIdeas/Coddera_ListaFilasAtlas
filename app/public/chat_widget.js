@@ -1,4 +1,4 @@
-const host = "https://genesyscloudapps.coddera.com:3002";
+const host = "https://genesyscloudapps.coddera.com:3003";
 //const host = "http://localhost:3002";
 
 function chat() {

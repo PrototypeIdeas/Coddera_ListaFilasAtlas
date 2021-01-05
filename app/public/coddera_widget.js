@@ -1,4 +1,4 @@
-const host = "https://genesyscloudapps.coddera.com:3002";
+const host = "https://genesyscloudapps.coddera.com:3003";
 //const host = "http://localhost:3002";
 
 function widget() {
@@ -51,7 +51,7 @@ function widget() {
                 question: question.value
             };
 
-            window.open(host + "/chat-widget?data=" + btoa(JSON.stringify(data), "teste", "height=200,width=200"));
+            window.open(host + "/chat-widget?data=" + btoa(JSON.stringify(data)), "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, top=1, left=1, width=1024, height=768");
         };
         
     });
